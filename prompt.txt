@@ -1,0 +1,74 @@
+buatkan issue.md yang berisi perencanaan untuk nanti diimplementasikan oleh junior programmer atau ai model yang lebih murah
+
+isi dari planning nya adalah sebagai berikut :
+
+buat table users;
+id biginteger auto_increment primary key;
+nama varchar(255) not null;
+email varchar(255) not null unique;
+password varchar(255) not null (password merupakan hash dari bcrypt);
+created_at timestamp default current_timestamp;
+updated_at timestamp default current_timestamp on update current_timestamp;
+
+buatkan API registrasi user baru dengan input nama, email, password
+
+API ini akan menerima request 
+POST /register
+
+dengan body : 
+{
+    "nama": "user1",
+    "email": "[EMAIL_ADDRESS]",
+    "password": "[PASSWORD]"
+}
+
+response json status 200 OK
+{
+    "success": true,
+    "message": "User berhasil ditambahkan",
+    "code": 2000,
+    "data": {
+        "id": 1,
+        "nama": "user1",
+        "email": "[EMAIL_ADDRESS]"
+    }
+}
+
+response error email exist
+{
+    "success": false,
+    "message": "Email sudah terdaftar",
+    "code": 4000,
+    "error": []
+}
+
+response error validasi input
+{
+    "success": false,
+    "message": "Invalid input",
+    "code": 4001,
+    "error": [
+        {
+            "field": "nama",
+            "message": "Nama tidak boleh kosong"
+        },
+        {
+            "field": "email",
+            "message": "Email tidak boleh kosong"
+        },
+        {
+            "field": "password",
+            "message": "Password tidak boleh kosong"
+        }
+    ]
+}
+
+struktur folder di dalam src 
+- routes : ini berisi routing elysiajs
+- service : ini berisi logic bisnis
+
+struktur file
+- routes : mengguakan format misal users-routes.ts
+- service : mengguakan format misal users-service.ts
+
+jelaskan tahapan-tahapan yang harus di implmentasikan fitur ini, anggap nanti yang mengimplementasikan adalah junior programmer atau model AI yang lebih murah.

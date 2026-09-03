@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "b25ca1ae-a243-46f3-958c-565c3fa20fda",
+  "id": "82f6ae42-7d7f-4fef-a451-a0e5369822cb",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "users": {
@@ -14,8 +14,8 @@
           "notNull": true,
           "autoincrement": true
         },
-        "name": {
-          "name": "name",
+        "nama": {
+          "name": "nama",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true,
@@ -23,6 +23,13 @@
         },
         "email": {
           "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "password": {
+          "name": "password",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true,
