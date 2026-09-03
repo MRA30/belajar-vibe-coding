@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1788417925915,
+      "tag": "0000_military_the_fallen",
+      "breakpoints": true
+    }
+  ]
+}
