@@ -2,22 +2,20 @@ buatkan issue.md yang berisi perencanaan untuk nanti diimplementasikan oleh juni
 
 isi dari planning nya adalah sebagai berikut :
 
-buat table users;
+buat table sessions;
 id biginteger auto_increment primary key;
-nama varchar(255) not null;
-email varchar(255) not null unique;
-password varchar(255) not null (password merupakan hash dari bcrypt);
+token varchar(255) not null; (isinya uuid untuk token user login)
+user_id bigint not null; (FK dari tabel users)
 created_at timestamp default current_timestamp;
 updated_at timestamp default current_timestamp on update current_timestamp;
 
-buatkan API registrasi user baru dengan input nama, email, password
+buatkan API untuk login user dengan expired 1 hari
 
 API ini akan menerima request 
-POST /register
+POST /login
 
 dengan body : 
 {
-    "nama": "user1",
     "email": "[EMAIL_ADDRESS]",
     "password": "[PASSWORD]"
 }
@@ -25,19 +23,19 @@ dengan body :
 response json status 200 OK
 {
     "success": true,
-    "message": "User berhasil ditambahkan",
+    "message": "User berhasil login",
     "code": 2000,
     "data": {
-        "id": 1,
-        "nama": "user1",
-        "email": "[EMAIL_ADDRESS]"
+        "token": "jwt"
+        "issuedAt": "timestamp",
+        "expiresAt": "timestamp"
     }
 }
 
-response error email exist
+response error
 {
     "success": false,
-    "message": "Email sudah terdaftar",
+    "message": "Email atau password salah",
     "code": 4000,
     "error": []
 }
@@ -48,10 +46,6 @@ response error validasi input
     "message": "Invalid input",
     "code": 4001,
     "error": [
-        {
-            "field": "nama",
-            "message": "Nama tidak boleh kosong"
-        },
         {
             "field": "email",
             "message": "Email tidak boleh kosong"

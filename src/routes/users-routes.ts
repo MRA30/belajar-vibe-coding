@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia";
-import { UsersService, EmailAlreadyExistsError } from "../service/users-service";
+import { UsersService, EmailAlreadyExistsError, InvalidCredentialsError } from "../service/users-service";
 
 export const usersRoutes = new Elysia()
   .onError(({ code, error, set }) => {
@@ -33,7 +33,7 @@ export const usersRoutes = new Elysia()
           return {
             success: false,
             message: "Email sudah terdaftar",
-            code: 4000,
+            code: 4002,
             error: [],
           };
         }
@@ -50,6 +50,44 @@ export const usersRoutes = new Elysia()
     {
       body: t.Object({
         nama: t.String({ minLength: 1, error: "Nama tidak boleh kosong" }),
+        email: t.String({ format: "email", error: "Email tidak boleh kosong" }),
+        password: t.String({ minLength: 1, error: "Password tidak boleh kosong" }),
+      }),
+    }
+  )
+  .post(
+    "/login",
+    async ({ body, set }) => {
+      try {
+        const session = await UsersService.loginUser(body);
+        return {
+          success: true,
+          message: "User berhasil login",
+          code: 2000,
+          data: session,
+        };
+      } catch (error) {
+        if (error instanceof InvalidCredentialsError) {
+          set.status = 400;
+          return {
+            success: false,
+            message: "Email atau password salah",
+            code: 4000,
+            error: [],
+          };
+        }
+        
+        set.status = 500;
+        return {
+          success: false,
+          message: "Internal server error",
+          code: 5000,
+          error: error instanceof Error ? error.message : String(error),
+        };
+      }
+    },
+    {
+      body: t.Object({
         email: t.String({ format: "email", error: "Email tidak boleh kosong" }),
         password: t.String({ minLength: 1, error: "Password tidak boleh kosong" }),
       }),
