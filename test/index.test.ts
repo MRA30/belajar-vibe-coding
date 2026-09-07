@@ -14,7 +14,10 @@ describe("Elysia Server Endpoints", () => {
     const response = await app.handle(new Request("http://localhost:3000/"));
     expect(response.status).toBe(200);
 
-    const data = await response.json();
+    const data = (await response.json()) as {
+      status: string;
+      message: string;
+    };
     expect(data.status).toBe("ok");
     expect(data.message).toBe("Server is running with Bun + ElysiaJS + Drizzle + MySQL!");
   });
@@ -23,7 +26,7 @@ describe("Elysia Server Endpoints", () => {
     const response = await app.handle(new Request("http://localhost:3000/users"));
     expect(response.status).toBe(200);
 
-    const data = await response.json();
+    const data = (await response.json()) as { success: boolean };
     expect(typeof data.success).toBe("boolean");
   });
 
@@ -41,7 +44,7 @@ describe("Elysia Server Endpoints", () => {
     );
     expect(response.status).toBe(200);
 
-    const data = await response.json();
+    const data = (await response.json()) as { success: boolean };
     expect(typeof data.success).toBe("boolean");
   });
 
@@ -60,7 +63,7 @@ describe("Elysia Server Endpoints", () => {
     );
     expect(response.status).toBe(400);
 
-    const data = await response.json();
+    const data = (await response.json()) as { success: boolean; code: number };
     expect(data.success).toBe(false);
     expect(data.code).toBe(4002); // Assuming 4002 is the code for email already exists
   });
@@ -75,7 +78,11 @@ describe("Elysia Server Endpoints", () => {
     );
     expect(response.status).toBe(400);
 
-    const data = await response.json();
+    const data = (await response.json()) as {
+      success: boolean;
+      code: number;
+      error: unknown[];
+    };
     expect(data.success).toBe(false);
     expect(data.code).toBe(4001);
     expect(Array.isArray(data.error)).toBe(true);
@@ -91,7 +98,11 @@ describe("Elysia Server Endpoints", () => {
     );
     expect(response.status).toBe(400);
 
-    const data = await response.json();
+    const data = (await response.json()) as {
+      success: boolean;
+      code: number;
+      error: unknown[];
+    };
     expect(data.success).toBe(false);
     expect(data.code).toBe(4001);
     expect(Array.isArray(data.error)).toBe(true);
@@ -110,7 +121,7 @@ describe("Elysia Server Endpoints", () => {
     );
     expect(response.status).toBe(200);
 
-    const data = await response.json();
+    const data = (await response.json()) as { success: boolean };
     expect(typeof data.success).toBe("boolean");
   });
 });
